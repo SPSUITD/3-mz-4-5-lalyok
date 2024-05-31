@@ -16,6 +16,7 @@ CHARACTER_SCALING = 1
 ANIMATION_SPEED = 0.1
 
 
+
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -95,12 +96,15 @@ class GameView(arcade.View):
         layer_options = {
             LAYER_NAME_WALLS: {
                 "use_spatial_hash": True,
+                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_APPLES: {
                 "use_spatial_hash": True,
+                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_EDGES: {
                 "use_spatial_hash": True,
+                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_GROUND: {
                 "use_spatial_hash": True,
@@ -124,6 +128,8 @@ class GameView(arcade.View):
         self.player_sprite.scale = CHARACTER_SCALING
         self.player_sprite.textures = self.player_textures["down"]
         self.player_sprite.texture = self.player_textures["down"][0]
+        self.player_sprite.set_hit_box([(-20, -20), (-20, 20), (20, 20), (20, -20)])
+
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player_sprite)
 
@@ -132,6 +138,20 @@ class GameView(arcade.View):
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
         self.goal = len(self.apple_list)
+
+        self.adjust_edge_hitboxes()
+
+    def adjust_edge_hitboxes(self):
+        for edge_sprite in self.edge_list:
+            half_width = edge_sprite.width * 0.25
+            half_height = edge_sprite.height * 0.25
+            points = [
+                (-half_width, -half_height),
+                (half_width, -half_height),
+                (half_width, half_height),
+                (-half_width, half_height)
+            ]
+            edge_sprite.set_hit_box(points)
 
     def on_draw(self):
         self.clear()
