@@ -16,7 +16,6 @@ CHARACTER_SCALING = 1
 ANIMATION_SPEED = 0.1
 
 
-
 class StartView(arcade.View):
     def __init__(self):
         super().__init__()
@@ -96,15 +95,12 @@ class GameView(arcade.View):
         layer_options = {
             LAYER_NAME_WALLS: {
                 "use_spatial_hash": True,
-                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_APPLES: {
                 "use_spatial_hash": True,
-                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_EDGES: {
                 "use_spatial_hash": True,
-                "hit_box_algorithm": "Detailed",
             },
             LAYER_NAME_GROUND: {
                 "use_spatial_hash": True,
